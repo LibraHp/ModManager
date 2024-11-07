@@ -3,16 +3,12 @@
         "installed": false,
         "version": "1.0.0"
     },
-    "啦啦啦": {
-        "installed": false,
-        "version": "2.0.0"
-    },
     "PvZOnline": {
-        "installed": true,
+        "installed": false,
         "version": "1.0.0"
     },
     "Modified": {
-        "installed": false,
+        "installed": true,
         "version": "1.0.0"
     },
     "Modified-Plus": {

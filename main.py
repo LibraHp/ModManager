@@ -1,10 +1,65 @@
 import json
+import requests
 import tkinter as tk
 from tkinter import messagebox
 
 # 加载 mod 信息和 mod 状态
-with open('mod_info.json', 'r', encoding='utf-8') as json_file:
-    mod_info_data = json.load(json_file)
+
+
+mod_list_url = "https://raw.gitmirror.com/LibraHp/ModManager/refs/heads/master/mod_info.json"
+try:
+    mod_info_json = requests.get(mod_list_url)
+    mod_info_data = json.loads(mod_info_json.text)
+except Exception as e:
+    mod_info_json = '''
+{
+    "mods": [
+        {
+            "mod_name": "ElectricPea",
+            "mod_author": "高数带我飞",
+            "mod_description": "电能豌豆Mod\n修改大麦植物为电能豌豆\n自动开启",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/ElectricPea.dll"
+        },
+        {
+            "mod_name": "GiftMultiplier",
+            "mod_author": "高数带我飞",
+            "mod_description": "通过权重修改植物礼盒出现植物的概率,以及礼盒中出现的植物数量\n自动开启",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/GiftMultiplier.dll"
+        },
+        {
+            "mod_name": "Modified",
+            "mod_author": "高数带我飞",
+            "mod_description": "融合版综合修改器\n自动开启",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/Modified.dll"
+        },
+        {
+            "mod_name": "Modified-Plus",
+            "mod_author": "高数带我飞",
+            "mod_description": "融合版综合修改器plus",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/Modified-Plus.dll"
+        },
+        {
+            "mod_name": "PvZOnline",
+            "mod_author": "高数带我飞",
+            "mod_description": "融合版联机mod",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/PvZOnline.dll"
+        }
+    ]
+}
+'''
+    mod_info_data = json.loads(mod_info_json)
+# with open('mod_info.json', 'r', encoding='utf-8') as json_file:
+#     mod_info_data = json.load(json_file)
 
 with open('mod_status.json', 'r', encoding='utf-8') as json_file:
     mod_status_data = json.load(json_file)
@@ -40,7 +95,11 @@ scrollbar.config(command=text_info.yview)
 
 button_frame = tk.Frame(right_frame)
 button_frame.pack(side=tk.BOTTOM, fill=tk.X)
-
+def download_file(url, save_path):
+    response = requests.get(url)
+    with open(save_path, 'wb') as f:
+        f.write(response.content)
+        
 def handleClick(event):
     index = listbox1.curselection()[0]
     mod_info = mod_info_data["mods"][index]
@@ -57,6 +116,11 @@ def downloadMod():
         return
     mod_status_data[mod_name]["installed"] = True
     saveModStatus()
+
+    # 开始下载
+    mod_download_url = mod_info_data["mods"][index]['mod_download_url']
+    mod_path = mod_info_data["mods"][index]['mod_install_location']
+    download_file(mod_download_url, mod_path)
     messagebox.showinfo("下载 Mod", f"开始下载 {mod_name}.")
 
 def uninstallMod():

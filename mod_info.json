@@ -6,7 +6,7 @@
             "mod_description": "电能豌豆Mod\n修改大麦植物为电能豌豆\n自动开启",
             "mod_install_location": "/BepInEx/plugins",
             "mod_version": "1.0.0",
-            "mod_download_url": "http://baidu.com"
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/ElectricPea.dll"
         },
         {
             "mod_name": "GiftMultiplier",
@@ -14,7 +14,7 @@
             "mod_description": "通过权重修改植物礼盒出现植物的概率,以及礼盒中出现的植物数量\n自动开启",
             "mod_install_location": "/BepInEx/plugins",
             "mod_version": "1.0.0",
-            "mod_download_url": "http://baidu.com"
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/GiftMultiplier.dll"
         },
         {
             "mod_name": "Modified",
@@ -22,7 +22,7 @@
             "mod_description": "融合版综合修改器\n自动开启",
             "mod_install_location": "/BepInEx/plugins",
             "mod_version": "1.0.0",
-            "mod_download_url": "http://baidu.com"
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/Modified.dll"
         },
         {
             "mod_name": "Modified-Plus",
@@ -30,7 +30,7 @@
             "mod_description": "融合版综合修改器plus",
             "mod_install_location": "/BepInEx/plugins",
             "mod_version": "1.0.0",
-            "mod_download_url": "http://baidu.com"
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/Modified-Plus.dll"
         },
         {
             "mod_name": "PvZOnline",
@@ -38,7 +38,7 @@
             "mod_description": "融合版联机mod",
             "mod_install_location": "/BepInEx/plugins",
             "mod_version": "1.0.0",
-            "mod_download_url": "http://baidu.com"
+            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/PvZOnline.dll"
         }
     ]
 }
