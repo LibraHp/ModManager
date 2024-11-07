@@ -1,0 +1,30 @@
+{
+    "Modfied-Plus": {
+        "installed": false,
+        "version": "1.0.0"
+    },
+    "啦啦啦": {
+        "installed": false,
+        "version": "2.0.0"
+    },
+    "PvZOnline": {
+        "installed": true,
+        "version": "1.0.0"
+    },
+    "Modified": {
+        "installed": false,
+        "version": "1.0.0"
+    },
+    "Modified-Plus": {
+        "installed": false,
+        "version": "1.0.0"
+    },
+    "GiftMultiplier": {
+        "installed": false,
+        "version": "1.0.0"
+    },
+    "ElectricPea": {
+        "installed": false,
+        "version": "1.0.0"
+    }
+}

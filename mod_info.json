@@ -1,0 +1,44 @@
+{
+    "mods": [
+        {
+            "mod_name": "ElectricPea",
+            "mod_author": "高数带我飞",
+            "mod_description": "电能豌豆Mod\n修改大麦植物为电能豌豆\n自动开启",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "http://baidu.com"
+        },
+        {
+            "mod_name": "GiftMultiplier",
+            "mod_author": "高数带我飞",
+            "mod_description": "通过权重修改植物礼盒出现植物的概率,以及礼盒中出现的植物数量\n自动开启",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "http://baidu.com"
+        },
+        {
+            "mod_name": "Modified",
+            "mod_author": "高数带我飞",
+            "mod_description": "融合版综合修改器\n自动开启",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "http://baidu.com"
+        },
+        {
+            "mod_name": "Modified-Plus",
+            "mod_author": "高数带我飞",
+            "mod_description": "融合版综合修改器plus",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "http://baidu.com"
+        },
+        {
+            "mod_name": "PvZOnline",
+            "mod_author": "高数带我飞",
+            "mod_description": "融合版联机mod",
+            "mod_install_location": "/BepInEx/plugins",
+            "mod_version": "1.0.0",
+            "mod_download_url": "http://baidu.com"
+        }
+    ]
+}
