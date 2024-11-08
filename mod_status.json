@@ -1,17 +1,5 @@
 {
-    "Modfied-Plus": {
-        "installed": false,
-        "version": "1.0.0"
-    },
-    "PvZOnline": {
-        "installed": false,
-        "version": "1.0.0"
-    },
-    "Modified": {
-        "installed": true,
-        "version": "1.0.0"
-    },
-    "Modified-Plus": {
+    "ElectricPea": {
         "installed": false,
         "version": "1.0.0"
     },
@@ -19,7 +7,15 @@
         "installed": false,
         "version": "1.0.0"
     },
-    "ElectricPea": {
+    "Modified": {
+        "installed": false,
+        "version": "1.0.0"
+    },
+    "Modified-Plus": {
+        "installed": false,
+        "version": "1.0.0"
+    },
+    "PvZOnline": {
         "installed": false,
         "version": "1.0.0"
     }

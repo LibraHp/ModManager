@@ -2,64 +2,26 @@ import json
 import requests
 import tkinter as tk
 from tkinter import messagebox
-
-# 加载 mod 信息和 mod 状态
-
+import os
 
 mod_list_url = "https://raw.gitmirror.com/LibraHp/ModManager/refs/heads/master/mod_info.json"
 try:
     mod_info_json = requests.get(mod_list_url)
     mod_info_data = json.loads(mod_info_json.text)
 except Exception as e:
-    mod_info_json = '''
-{
-    "mods": [
-        {
-            "mod_name": "ElectricPea",
-            "mod_author": "高数带我飞",
-            "mod_description": "电能豌豆Mod\n修改大麦植物为电能豌豆\n自动开启",
-            "mod_install_location": "/BepInEx/plugins",
-            "mod_version": "1.0.0",
-            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/ElectricPea.dll"
-        },
-        {
-            "mod_name": "GiftMultiplier",
-            "mod_author": "高数带我飞",
-            "mod_description": "通过权重修改植物礼盒出现植物的概率,以及礼盒中出现的植物数量\n自动开启",
-            "mod_install_location": "/BepInEx/plugins",
-            "mod_version": "1.0.0",
-            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/GiftMultiplier.dll"
-        },
-        {
-            "mod_name": "Modified",
-            "mod_author": "高数带我飞",
-            "mod_description": "融合版综合修改器\n自动开启",
-            "mod_install_location": "/BepInEx/plugins",
-            "mod_version": "1.0.0",
-            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/Modified.dll"
-        },
-        {
-            "mod_name": "Modified-Plus",
-            "mod_author": "高数带我飞",
-            "mod_description": "融合版综合修改器plus",
-            "mod_install_location": "/BepInEx/plugins",
-            "mod_version": "1.0.0",
-            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/Modified-Plus.dll"
-        },
-        {
-            "mod_name": "PvZOnline",
-            "mod_author": "高数带我飞",
-            "mod_description": "融合版联机mod",
-            "mod_install_location": "/BepInEx/plugins",
-            "mod_version": "1.0.0",
-            "mod_download_url": "https://raw.githubusercontent.com/LibraHp/ModManager/refs/heads/master/Mods/PvZOnline.dll"
-        }
-    ]
-}
-'''
-    mod_info_data = json.loads(mod_info_json)
-# with open('mod_info.json', 'r', encoding='utf-8') as json_file:
-#     mod_info_data = json.load(json_file)
+    with open('mod_info.json', 'r', encoding='utf-8') as json_file:
+        mod_info_data = json.load(json_file)
+
+# 根据mod_info.json生成mod_status.json
+mod_status_data = {}
+for mod in mod_info_data["mods"]:
+    mod_name = mod["mod_name"]
+    mod_status_data[mod_name] = {"installed": False, "version": "1.0.0"}
+
+# 如果mod_status.json不存在,创建一个新的文件
+if not os.path.exists('mod_status.json'):
+    with open('mod_status.json', 'w', encoding='utf-8') as json_file:
+        json.dump(mod_status_data, json_file, ensure_ascii=False, indent=4)
 
 with open('mod_status.json', 'r', encoding='utf-8') as json_file:
     mod_status_data = json.load(json_file)
@@ -68,38 +30,37 @@ root = tk.Tk()
 root.title("融合版mod管理器")
 root.geometry("600x400")
 
-# 使用 Frame 构建左右布局
 left_frame = tk.Frame(root)
 left_frame.pack(side=tk.LEFT, fill=tk.BOTH)
 
 right_frame = tk.Frame(root)
 right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-# 在左边 Frame 中放置 Listbox
 listbox1 = tk.Listbox(left_frame, width=30)
 listbox1.pack(fill=tk.BOTH, expand=True)
 
-# 在右边 Frame 中放置 Text 和 Button
 info_frame = tk.Frame(right_frame)
 info_frame.pack(fill=tk.BOTH, expand=True)
 
-# 自动创建Scrollbar
 scrollbar = tk.Scrollbar(info_frame)
 scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
 text_info = tk.Text(info_frame, wrap=tk.WORD, yscrollcommand=scrollbar.set)
 text_info.pack(fill=tk.BOTH, expand=True)
 
-# 设置滚动
 scrollbar.config(command=text_info.yview)
 
 button_frame = tk.Frame(right_frame)
 button_frame.pack(side=tk.BOTTOM, fill=tk.X)
 def download_file(url, save_path):
+    if not os.path.exists(os.path.dirname(save_path)):
+        os.makedirs(os.path.dirname(save_path))
     response = requests.get(url)
+    if response.status_code != 200:
+        raise Exception(f"Failed to download file. Status code: {response.status_code}")
     with open(save_path, 'wb') as f:
         f.write(response.content)
-        
+
 def handleClick(event):
     index = listbox1.curselection()[0]
     mod_info = mod_info_data["mods"][index]
@@ -110,23 +71,25 @@ def handleClick(event):
 def downloadMod():
     index = listbox1.curselection()[0]
     mod_name = mod_info_data["mods"][index]['mod_name']
-    # 修改mod状态为已安装
     if mod_status_data[mod_name]["installed"]:
         messagebox.showinfo("下载 Mod", f"{mod_name} 已经安装。")
         return
-    mod_status_data[mod_name]["installed"] = True
-    saveModStatus()
 
-    # 开始下载
     mod_download_url = mod_info_data["mods"][index]['mod_download_url']
     mod_path = mod_info_data["mods"][index]['mod_install_location']
-    download_file(mod_download_url, mod_path)
-    messagebox.showinfo("下载 Mod", f"开始下载 {mod_name}.")
+    try:
+        download_file(mod_download_url, mod_path + "/" + mod_name + ".dll")
+        messagebox.showinfo(f"{mod_name}.","安装成功！")
+        mod_status_data[mod_name]["installed"] = True
+        saveModStatus()
+    except Exception as e:
+        print(e)
+        messagebox.showinfo(f"{mod_name}.","下载失败！")
+    
 
 def uninstallMod():
     index = listbox1.curselection()[0]
     mod_name = mod_info_data["mods"][index]['mod_name']
-    # 修改mod状态为未安装
     if not mod_status_data[mod_name]["installed"]:
         messagebox.showinfo("卸载 Mod", f"{mod_name} 未安装。")
         return
@@ -138,7 +101,6 @@ def uninstallMod():
 def saveModStatus():
     with open('mod_status.json', 'w', encoding='utf-8') as json_file:
         json.dump(mod_status_data, json_file, ensure_ascii=False, indent=4)
-    # 刷新页面状态
     for i, mod in enumerate(mod_info_data["mods"]):
         mod_name = mod["mod_name"]
         is_installed = mod_status_data[mod_name]["installed"] if mod_name in mod_status_data else False
@@ -154,7 +116,6 @@ download_button.pack(side=tk.LEFT, padx=5, pady=5)
 uninstall_button = tk.Button(button_frame, text="卸载 Mod", command=uninstallMod)
 uninstall_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
-# 添加 mods 到 listbox
 for i, mod in enumerate(mod_info_data["mods"]):
     mod_name = mod["mod_name"]
     mod_version = mod["mod_version"]
